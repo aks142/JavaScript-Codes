@@ -1,0 +1,85 @@
+/* 
+Problem Statement 
+
+
+Given a string s, find the length of the longest 
+substring
+ without repeating characters.
+
+ 
+
+Example 1:
+
+Input: s = "abcabcbb"
+Output: 3
+Explanation: The answer is "abc", with the length of 3.
+Example 2:
+
+Input: s = "bbbbb"
+Output: 1
+Explanation: The answer is "b", with the length of 1.
+Example 3:
+
+Input: s = "pwwkew"
+Output: 3
+Explanation: The answer is "wke", with the length of 3.
+Notice that the answer must be a substring, "pwke" is a subsequence and not a substring.
+ 
+
+Constraints:
+
+0 <= s.length <= 5 * 104
+s consists of English letters, digits, symbols and spaces.
+*/
+
+//Solution
+
+
+/**
+ * @param {string} s
+ * @return {number}
+ */
+var lengthOfLongestSubstring = function(s) {
+    
+    let sl = s.length, sr = "", //t= "";
+    // let l = 0, h = l + 1, st = 0, end = 1;
+    // sr += s.charAt(l); t=sr;
+    m = 0;
+
+    if(0 <= sl <= 5E4){
+
+        for(let i = 0; i<sl; i++){
+            if(!sr.includes(s[i]))
+                sr += s[i];
+            else {
+                m = Math.max(m, sr.length);
+                let ind = sr.indexOf(s[i]);
+                sr = sr.slice(ind+1,sr.length) + s[i];
+            }
+        }
+        m = Math.max(m,sr.length);
+        // while(l < h && h <= sl){
+
+        //     // console.log(t,sr);
+        //     if(!t.includes(s.charAt(h))){
+        //         t += s.charAt(h);
+        //     }else if(t.length > sr.length){
+        //         let ti = t;
+        //         sr = ti; l++; h=l;
+        //         t = s.charAt(l);               
+        //     }else if(t.length < sr.length){
+        //         l++; h=l;
+        //         t = s.charAt(l);
+        //     }else if(t.length == sr.length){
+        //         l++; h=l;
+        //         t = s.charAt(l);
+        //     }
+        //     h++;
+        // }
+
+
+    }
+
+    // return sr.length;
+    return m;
+};
