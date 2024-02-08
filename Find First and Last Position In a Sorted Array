@@ -1,0 +1,45 @@
+/**
+ * @param {number[]} nums
+ * @param {number} target
+ * @return {number[]}
+ */
+var searchRange = function(nums, target) {
+    let n = nums.length, s = [];
+    let fmax = Math.max(...nums), fmin = Math.min(...nums);
+
+    if(0 <= n && n <= 1E5 && fmax <= 1E10 && fmin >= -1E10 && target >= -1E10 && target <= 1E10){
+        //code with inbuilt functions
+        s.push(nums.indexOf(target)); 
+        let r = nums.reverse().indexOf(target);
+        if(r != -1)
+            s.push(n-r-1);
+        else
+            s.push(r);
+
+        //Code without inbuilt functions
+        // let l=0, h=n-1;
+        // while(l < h){
+        //     if(nums[l] !== target)
+        //         l++;
+
+        //     if(nums[h] !== target)
+        //         h--;
+
+        //     if(nums[l] === target && nums[h] === target)
+        //         break;
+        // }
+
+        // if(l > h){
+        //     l=-1; h=-1;
+        // }
+
+        // if(l == h && nums[l] !== target){
+        //     l=-1;h=-1;
+        // }
+
+        // s.push(l);s.push(h);
+    }
+
+    return s;
+
+};
