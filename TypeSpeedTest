@@ -1,0 +1,154 @@
+
+<!-- Rules
+1. Player has to type words from the given sentence.
+2. Enable text area by presing start button and press Done after typing complete.
+3. Print Typing Speed at the top.
+4. Compare the typed words with given sentence and print number of correct and incorrect words typed. -->
+
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>TypeSpeedTest</title>
+        <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
+        <style>
+
+            *{ 
+                padding: 0; 
+                margin: 0; 
+                box-sizing: border-box;
+                font-family: 'Josefin Sans',sans-serif;
+            }
+
+            .mainDiv{
+                width: 100%;
+                height: 100vh;
+                position: relative;
+                background: #3498db;
+            }
+
+            .centerDiv{
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                text-align: center;
+            }
+
+            h1{
+                text-transform: capitalize;
+                margin-bottom: 30px;
+                color: #ecf0f1;
+                text-shadow: 1px 2px 3px #2980b9;
+                font-size: 2.1rem;
+            }
+
+            h2{
+                text-align: center;
+            }
+
+            textarea{
+                background-color: #444;
+                box-shadow: 0 0 1px rgba(0,0,0,0.2);
+                border-radius: 10px 10px 0 0;
+                border: 20px solid #34495e;
+                color: white;
+                font-size: 1.3rem;
+            }
+
+            .mainBtn{
+                padding: 10px 20px;
+                border-radius: 20px;
+                border: 5px solid #2980b9;
+                background: #ecf0f1;
+                font-size: 1rem;
+            }
+
+        </style>
+    </head>
+    
+    <body>
+
+        <div class="mainDiv">
+            <div class="centerDiv">
+                <h1>Welcome to Typing Speed Test</h1>
+                <h2 id="msg"> </h2>
+                <br>
+                <textarea id="mywords" disabled=true placeholder="Type here" rows="10" cols="100"></textarea>
+                <br>
+                <button id="btn" class="mainBtn">Start</button>
+            </div>
+        </div>
+
+        <script>
+
+            const setOfWords = [
+                "Generative AI starts with a prompt that could be in the form of a text, an image, a video, a design, musical notes, or "+
+                "any input that the AI system can process.",
+                "Various AI algorithms then return new content in response to the prompt.",
+                "Content can include essays, solutions to problems, or realistic fakes created from pictures or audio of a person."
+            ];
+
+            const msg = document.getElementById("msg"), typedWords = document.getElementById("mywords"), btn = document.getElementById("btn");
+            let startTime, endTime, cnt=0;
+
+            const playGame = () => {
+                let randomNumber = Math.floor(Math.random() * setOfWords.length);
+                msg.innerText = setOfWords[randomNumber];
+                btn.innerText = "Done";
+                let date = new Date();
+                startTime = date.getTime();
+            }
+
+            const wordCounter = (paramStr) => {
+                let noOfWords = paramStr.split(" ").length;
+                if(!paramStr) return 0;
+                return noOfWords;
+            }
+
+            const compareWords = (checkStr, inputStr) => {
+                let checkArr = checkStr.split(" ");
+                let inputArr = inputStr.split(" ");
+
+                inputArr.forEach(element => {
+                    if(checkArr.indexOf(element) != -1)
+                        cnt++;
+                });
+
+                let incorrectCount = (inputArr.length - cnt);
+
+                if(!inputStr)
+                    incorrectCount = 0;
+
+                return (` Out of ${checkArr.length} words you've got ${cnt} words correct and ${incorrectCount} words incorrect`)
+            }
+
+            const endGame = () => {
+                let date = new Date();
+                endTime = date.getTime();
+                let totalTime = ((endTime - startTime) / 1000);
+                let noOfTypedWords = wordCounter(typedWords.value??"");
+                let speedOfTyping = Math.round((noOfTypedWords / totalTime) * 60);
+                let finalMsg = "You typed at a speed of " + speedOfTyping + " words per minute.";
+                finalMsg += compareWords(msg.innerText,typedWords.value);
+                msg.innerText = finalMsg;
+                cnt = 0;
+            }
+
+            btn.addEventListener('click', function () {
+                if(this.innerText == 'Start') {
+                    typedWords.disabled = false;
+                    typedWords.value = "";
+                    playGame();
+                }else {
+                    typedWords.disabled = true;
+                    btn.innerText = "Start";
+                    endGame();
+                }
+            });
+
+        </script>
+
+    </body>
+
+</html>
